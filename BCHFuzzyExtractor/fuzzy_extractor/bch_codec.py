@@ -61,7 +61,7 @@ class BCHCodec:
         codeword_array = shortened_codeword_gf.view(np.ndarray).astype(np.uint8)
         codeword_bytes = np.packbits(codeword_array).tobytes()
 
-        return codeword_bytes[:self.total_target_bytes]
+        return codeword_bytes
 
     def decode(self, packet):
         """
