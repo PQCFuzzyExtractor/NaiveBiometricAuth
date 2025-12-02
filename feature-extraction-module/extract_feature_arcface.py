@@ -42,15 +42,17 @@ def load_backbone():
     return model
 
 
+# Load the model once at module load time
+MODEL = load_backbone()
+
 # -----------------------------
 # ⭐ 함수 A: iris code 추출
 # -----------------------------
 def extract_iris_code(image_path):
-    model = load_backbone()
     img = preprocess_image(image_path)
 
     with torch.no_grad():
-        embedding = model(img).cpu().numpy().flatten()   # float 3488
+        embedding = MODEL(img).cpu().numpy().flatten()   # float 3488
 
     binary_code = float_to_binary(embedding)  # 3488-bit
     return binary_code
