@@ -50,11 +50,14 @@ def load_model(model_class, path: str, device="cpu", **kwargs):
 # -------------------------------------------------------
 def binary_encode(embedding_tensor: torch.Tensor, threshold: float = 0.0):
     """
-    embedding_tensor: tensor shape (B, D)
-    Returns numpy binary array (B, D) with values {0,1}
+    embedding_tensor: tensor of shape (B, D) or (D,)
+    Returns numpy binary array of shape (B, D) with values {0,1}
+    If a 1D tensor is provided, it is treated as a batch of size 1.
     """
-    if embedding_tensor.dim() != 2:
-        raise ValueError("binary_encode expects (B, D) tensor.")
+    if embedding_tensor.dim() == 1:
+        embedding_tensor = embedding_tensor.unsqueeze(0)
+    elif embedding_tensor.dim() != 2:
+        raise ValueError("binary_encode expects a tensor of shape (B, D) or (D,).")
 
     binary = (embedding_tensor > threshold).int().cpu().numpy()
     return binary
