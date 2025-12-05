@@ -8,7 +8,7 @@ class Storage:
     def _init_db(self):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
-            # user_id를 키로, helper(바이트 스트림)를 값으로 저장
+            # Store helper_data as BLOB with user_id as primary key
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS helpers (
                     user_id TEXT PRIMARY KEY,

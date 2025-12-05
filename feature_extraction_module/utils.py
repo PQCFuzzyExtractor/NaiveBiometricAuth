@@ -74,3 +74,14 @@ def hamming_distance(v1: np.ndarray, v2: np.ndarray) -> int:
         raise ValueError(f"Hamming distance mismatch: {v1.shape} vs {v2.shape}")
 
     return int(np.sum(v1 != v2))
+
+# -------------------------------------------------------
+# 5) Iris Code to Bytes Conversion
+# -------------------------------------------------------
+def iris_code_to_bytes(code_array: np.ndarray) -> bytes:
+    if code_array.dtype != np.uint8:
+        code_array = code_array.astype(np.uint8)
+    packed = np.packbits(code_array)  # length should be 436
+    if len(packed) != 436:
+        raise ValueError(f"Packed length mismatch: {len(packed)} != 436")
+    return packed.tobytes()
